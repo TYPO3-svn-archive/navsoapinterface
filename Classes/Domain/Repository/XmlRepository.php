@@ -1,5 +1,5 @@
 <?php
-namespace BLSV\Soapinterface\Domain\Repository;
+namespace BLSV\Navsoapinterface\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
@@ -32,7 +32,7 @@ namespace BLSV\Soapinterface\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class \BLSV\Navsoapinterface\Domain\Repository\XmlRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class XmlRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 }
 ?>

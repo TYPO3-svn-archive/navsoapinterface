@@ -48,8 +48,28 @@ class XmlController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	 * @return void
 	 */
 	public function listAction() {
-		$xmls = $this->xmlRepository->findAll();
-		$this->view->assign('xmls', $xmls);
+		$url = 'http://durin.blsv.de:7046/DynamicsNAV/WS/BLSV_Gesamt/Codeunit/BLSV_Interface';
+		
+		// we unregister the current HTTP wrapper
+		stream_wrapper_unregister('http');
+		
+		// we register the new HTTP wrapper
+		stream_wrapper_register('http', '\BLSV\Navsoapinterface\Service\NtmlStream') or die("Failed to register protocol");
+		
+		// so now all request to a http page will be done by MyServiceProviderNTLMStream.
+		// ok now, let's request the wsdl file
+		// if everything works fine, you should see the content of the wsdl file
+		
+		$options['user'] = 'test';
+		$options['password'] = 'test';
+		
+		$client = new \BLSV\Navsoapinterface\Service\NtmlSoapClient($url, $options);
+		
+		// should display your reply
+		echo $client->mySoapFunction();
+		
+		// restore the original http protocole
+		stream_wrapper_restore('http');		
 	}
 
 	/**
