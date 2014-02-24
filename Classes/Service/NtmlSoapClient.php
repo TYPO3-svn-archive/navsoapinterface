@@ -42,6 +42,16 @@ namespace BLSV\Navsoapinterface\Service;
 class NtmlSoapClient extends \SoapClient {
 	
 	/**
+	 * @var string  
+	 */
+	protected $user;
+	
+	/**
+	 * @var string
+	 */
+	protected $password;
+	
+	/**
 	 * 
 	 * @param mixed $wsdl
 	 * @param array $options
@@ -51,7 +61,13 @@ class NtmlSoapClient extends \SoapClient {
 		if (empty($options['user']) || empty($options['password'])) throw new \TYPO3\CMS\Extbase\Configuration\Exception('user and password required for NTLM authentication!',13926543421);
 		$this->user = $options['user'];
 		$this->password = $options['password'];
-		parent::__construct($wsdl, $options);
+		echo $wsdl;
+		try {
+			parent::__construct($wsdl, $options);
+			
+		} catch (Exception  $e) {
+			echo 'Fehler: ' .  $e->faultcode;
+		}
 	}
 	
 	/**
@@ -72,15 +88,27 @@ class NtmlSoapClient extends \SoapClient {
     );
 
     $this->__last_request_headers = $headers;
-    $ch = curl_init($location);
+    echo '<br>Location: ' . $location . '<br>';
+    $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$headers );
+    curl_setopt($ch, CURLOPT_URL, $location);
     curl_setopt($ch, CURLOPT_POST, true );
     curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_NTLM);
     curl_setopt($ch, CURLOPT_USERPWD, $this->user.':'.$this->password);
+   
     $response = curl_exec($ch);
+    
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($code!=200) echo  '<br />Code: ' . $code .
+    		 '<br /><b>Header: </b>' . curl_getinfo($ch,CURLINFO_HEADER_OUT) . 
+    		'<br /><b>data:</b>' . curl_getinfo($ch,CURLOPT_POSTFIELDS) . 
+    		'<br />' .curl_error($ch); ;
+    
+    echo "<br /><pre>".htmlspecialchars($response)."</pre>";
+    
     
     return $response;
   }

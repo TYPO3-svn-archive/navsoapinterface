@@ -44,13 +44,13 @@ class NtmlStream {
 		 *
 		 * @var string
 		 */
-		protected $user = 'test';
+		protected $user = 'golfb';
 	
 		/**
 		 *
 		 * @var string
 		 */
-		protected $password = 'test';
+		protected $password = 'volley2010%';
 	
 	
 		/**
@@ -231,9 +231,11 @@ class NtmlStream {
 		 curl_setopt($this->ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 		 curl_setopt($this->ch, CURLOPT_HTTPAUTH, CURLAUTH_NTLM);
 		 curl_setopt($this->ch, CURLOPT_USERPWD, $this->user.':'.$this->password);
-		 echo $this->buffer = curl_exec($this->ch);
+		 echo $this->buffer = curl_exec($this->ch) . ' - ' . $this->user;
 	
+		 
 		echo "[NTLMStream::createBuffer] buffer size : ".strlen($this->buffer)."bytes\n";
+		
 		$this->pos = 0;
 	
 	}

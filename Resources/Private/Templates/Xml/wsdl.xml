@@ -1,0 +1,49 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/WSBLSV" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/WSBLSV">
+<types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/WSBLSV">
+<element name="GetCustomer">
+<complexType>
+<sequence>
+<element minOccurs="1" maxOccurs="1" name="paramContactID" type="string"/>
+</sequence>
+</complexType>
+</element>
+<element name="GetCustomer_Result">
+<complexType>
+<sequence>
+<element minOccurs="1" maxOccurs="1" name="return_value" type="string"/>
+</sequence>
+</complexType>
+</element>
+</schema>
+</types>
+<message name="GetCustomer">
+<part name="parameters" element="tns:GetCustomer"/>
+</message>
+<message name="GetCustomer_Result">
+<part name="parameters" element="tns:GetCustomer_Result"/>
+</message>
+<portType name="WSBLSV_Port">
+<operation name="GetCustomer">
+<input name="GetCustomer" message="tns:GetCustomer"/>
+<output name="GetCustomer_Result" message="tns:GetCustomer_Result"/>
+</operation>
+</portType>
+<binding name="WSBLSV_Binding" type="tns:WSBLSV_Port">
+<binding xmlns="http://schemas.xmlsoap.org/wsdl/soap/" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="GetCustomer">
+<operation xmlns="http://schemas.xmlsoap.org/wsdl/soap/" soapAction="urn:microsoft-dynamics-schemas/codeunit/WSBLSV:GetCustomer" style="document"/>
+<input name="GetCustomer">
+<body xmlns="http://schemas.xmlsoap.org/wsdl/soap/" use="literal"/>
+</input>
+<output name="GetCustomer_Result">
+<body xmlns="http://schemas.xmlsoap.org/wsdl/soap/" use="literal"/>
+</output>
+</operation>
+</binding>
+<service name="WSBLSV">
+<port name="WSBLSV_Port" binding="tns:WSBLSV_Binding">
+<address xmlns="http://schemas.xmlsoap.org/wsdl/soap/" location="http://durin.blsv.de:7047/DynamicsNAV/WS/Codeunit/WSBLSV"/>
+</port>
+</service>
+</definitions>
